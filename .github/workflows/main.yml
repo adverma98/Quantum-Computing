@@ -50,20 +50,32 @@ jobs:
         run: |
           /usr/bin/git log -3
       
-      - name: Git Configs
-        run: |
-          /usr/bin/git config --global user.name "tester"
-          /usr/bin/git config --global user.email "not-tester@linkedin.com"
-      - name: Git Revert
-        run: |
-          echo "abcd" >> abcd.txt
-          /usr/bin/git add abcd.txt
+#       - name: Git Configs
+#         run: |
+#           /usr/bin/git config --global user.name "tester"
+#           /usr/bin/git config --global user.email "not-tester@linkedin.com"
+#       - name: Git Revert
+#         run: |
+#           git revert -m 1 
       
-      - name: Git Commit
-        run: |
-          /usr/bin/git commit -am "Revert commit ${GITHUB_SHA} \n AUTO_MERGE_ENABLED"
-          ls
+#       - name: Git Commit
+#         run: |
+#           /usr/bin/git commit -am "Revert commit ${GITHUB_SHA} \n AUTO_MERGE_ENABLED"
+#           ls
           
-      - name: Git Push
+#       - name: Git Push
+#         run: |
+#           /usr/bin/git push --verbose
+
+
+      - name: Revert
         run: |
-          /usr/bin/git push --verbose
+          git checkout -b tester/autorevert_${GITHUB_SHA}
+          git revert -m 1 ${GITHUB_SHA} --no-commit
+          git commit -m "Revert commit ${GITHUB_SHA} \n AUTO_MERGE_ENABLED"
+          git push origin tester/autorevert_${GITHUB_SHA}
+
+
+      - name: Git Log
+        run: |
+          /usr/bin/git log -3
