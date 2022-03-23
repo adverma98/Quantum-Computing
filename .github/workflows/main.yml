@@ -1,0 +1,64 @@
+name: Auto-Revert
+on:
+  # Trigger the workflow on code merge to CI branches.
+  push:
+    branches: [ master ]
+
+jobs:
+
+  Build:
+
+    runs-on: linux
+
+    steps:
+      # Update the path to ensure that we're using the correct git
+      - name: Update PATH
+        run: echo "/export/apps/xtools/bin" >> $GITHUB_PATH
+    
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout Multiproduct
+        uses: actions/checkout@v2
+        with:
+          # Fetch depth of 0 forces it to get the whole history, including the .git folder - the default will not have the .git folder
+          # https://github.com/actions/checkout/issues/335
+          fetch-depth: 0
+          
+      - name: Build
+        run: |
+          ls
+          exit 1
+          
+  Revert:
+
+    runs-on: linux
+
+    needs: Build
+
+    if: failure()
+
+    steps:      
+      - name: ls -alrth
+        run: |
+          ls -alrth
+          
+      - name: Git Log
+        run: |
+          /export/apps/xtools/bin/git log -3
+      
+      - name: Git Configs
+        run: |
+          /export/apps/xtools/bin/git config --global user.name "tester"
+          /export/apps/xtools/bin/git config --global user.email "not-tester@linkedin.com"
+      - name: Git Revert
+        run: |
+          echo "abcd" >> abcd.txt
+          /export/apps/xtools/bin/git add abcd.txt
+      
+      - name: Git Commit
+        run: |
+          /export/apps/xtools/bin/git commit -am "Revert commit ${GITHUB_SHA} \n AUTO_MERGE_ENABLED"
+          ls
+          
+      - name: Git Push
+        run: |
+          /export/apps/xtools/bin/git push --verbose
