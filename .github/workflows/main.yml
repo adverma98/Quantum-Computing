@@ -12,8 +12,8 @@ jobs:
 
     steps:
       # Update the path to ensure that we're using the correct git
-      - name: Update PATH
-        run: echo "/export/apps/xtools/bin" >> $GITHUB_PATH
+#       - name: Update PATH
+#         run: echo "/export/apps/xtools/bin" >> $GITHUB_PATH
     
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Multiproduct
@@ -43,22 +43,22 @@ jobs:
           
       - name: Git Log
         run: |
-          /export/apps/xtools/bin/git log -3
+          git log -3
       
       - name: Git Configs
         run: |
-          /export/apps/xtools/bin/git config --global user.name "tester"
-          /export/apps/xtools/bin/git config --global user.email "not-tester@linkedin.com"
+          git config --global user.name "tester"
+          git config --global user.email "not-tester@linkedin.com"
       - name: Git Revert
         run: |
           echo "abcd" >> abcd.txt
-          /export/apps/xtools/bin/git add abcd.txt
+          git add abcd.txt
       
       - name: Git Commit
         run: |
-          /export/apps/xtools/bin/git commit -am "Revert commit ${GITHUB_SHA} \n AUTO_MERGE_ENABLED"
+          git commit -am "Revert commit ${GITHUB_SHA} \n AUTO_MERGE_ENABLED"
           ls
           
       - name: Git Push
         run: |
-          /export/apps/xtools/bin/git push --verbose
+          git push --verbose
