@@ -8,7 +8,7 @@ jobs:
 
   Build:
 
-    runs-on: linux
+    runs-on: ubuntu-latest
 
     steps:
       # Update the path to ensure that we're using the correct git
@@ -30,7 +30,7 @@ jobs:
           
   Revert:
 
-    runs-on: linux
+    runs-on: ubuntu-latest
 
     needs: Build
 
