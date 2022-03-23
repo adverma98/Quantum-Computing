@@ -50,10 +50,11 @@ jobs:
         run: |
           /usr/bin/git log -3
       
-#       - name: Git Configs
-#         run: |
-#           /usr/bin/git config --global user.name "tester"
-#           /usr/bin/git config --global user.email "not-tester@linkedin.com"
+      - name: Git Configs
+        run: |
+          /usr/bin/git config --global user.name "tester"
+          /usr/bin/git config --global user.email "not-tester@linkedin.com"
+
 #       - name: Git Revert
 #         run: |
 #           git revert -m 1 
