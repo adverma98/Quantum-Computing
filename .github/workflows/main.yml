@@ -11,19 +11,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Update the path to ensure that we're using the correct git
-      - name: Update PATH
-        run: |
-          echo "/usr/bin" >> $GITHUB_PATH
-          echo $GITHUB_PATH
-    
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Checkout Multiproduct
-        uses: actions/checkout@v2
-        with:
-          # Fetch depth of 0 forces it to get the whole history, including the .git folder - the default will not have the .git folder
-          # https://github.com/actions/checkout/issues/335
-          fetch-depth: 0
           
       - name: Build
         run: |
@@ -38,7 +25,23 @@ jobs:
 
     if: failure()
 
-    steps:      
+    steps:
+    
+    # Update the path to ensure that we're using the correct git
+      - name: Update PATH
+        run: |
+          echo "/usr/bin" >> $GITHUB_PATH
+          echo $GITHUB_PATH
+    
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout Multiproduct
+        uses: actions/checkout@v2
+        with:
+          # Fetch depth of 0 forces it to get the whole history, including the .git folder - the default will not have the .git folder
+          # https://github.com/actions/checkout/issues/335
+          fetch-depth: 0
+    
+    
       - name: ls -alrth
         run: |
           ls -alrth
