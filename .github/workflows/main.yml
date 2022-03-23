@@ -12,8 +12,10 @@ jobs:
 
     steps:
       # Update the path to ensure that we're using the correct git
-#       - name: Update PATH
-#         run: echo "/export/apps/xtools/bin" >> $GITHUB_PATH
+      - name: Update PATH
+        run: |
+          echo "/usr/bin" >> $GITHUB_PATH
+          echo $GITHUB_PATH
     
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Multiproduct
@@ -25,7 +27,7 @@ jobs:
           
       - name: Build
         run: |
-          ls
+          ls -la
           exit 1
           
   Revert:
